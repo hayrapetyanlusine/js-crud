@@ -42,5 +42,28 @@
 .logo p {
     font-size: 33px;
     font-weight: bold;
+    text-wrap: nowrap;
 }
 
+.main-content {
+    max-width: 1200px;
+    width: 100%;
+}
+
+#header {
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.search input[type="text"] {
+    color: #ADB5BD;
+    border: none;
+}
