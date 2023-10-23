@@ -1,0 +1,46 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#app {
+    display: flex;
+}
+
+#app .menu-toggle-btn {
+    padding: 8px;
+    border-radius: 50%;
+    background-color: #3A57E8;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    position: absolute;
+    right: -15px;
+    top: 20px;
+}
+
+.sidebar-menu {
+    max-width: 260px;
+    width: 100%;
+    padding: 16px 24px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    border: 1px solid rgb(25, 113, 47);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo p {
+    font-size: 33px;
+    font-weight: bold;
+}
+
