@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
-  // menu toggle
+    // menu toggle
     const menuBtn = document.querySelector(".menu-toggle-btn");
 
     menuBtn.addEventListener("click", (e) => {
@@ -12,15 +12,6 @@ window.addEventListener("DOMContentLoaded", () => {
     // ]);
 
     // promise all and only then render
-    async function loadJson(url) {
-        let response = await fetch(url);
-
-        if (response.status == 200) {
-        return response.json();
-        }
-
-        throw new Error(response);
-    }
 
     const data = [
         {
@@ -205,6 +196,7 @@ window.addEventListener("DOMContentLoaded", () => {
         // const data = await loadJson("menu.json");
 
         if (!Object.keys(data).length) return;
+        // if(!data.length) return;
 
         for (const item of data) {
             const values = Object.values(item);
@@ -234,26 +226,26 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-    const response = Promise.all([
-      fetch("https://jsonplaceholder.typicode.com/posts"),
-      fetch("https://jsonplaceholder.typicode.com/users"),
+    // creating posts table
+    const responses = Promise.all([
+        fetch("https://jsonplaceholder.typicode.com/posts"),
+        fetch("https://jsonplaceholder.typicode.com/users"),
     ]);
 
-    response
+    responses
         .then((streams) => {
             return Promise.all(streams.map((stream) => stream.json()));
         })
         .then((data) => {
-            const [postsData, usersData] = data;
-
             const tbody = document.querySelector("tbody");
+
+            const [postsData, usersData] = data;
 
             postsData.map(post => {
                 let username;
 
                 usersData.map(user => {
-                    if(user.id === post.userId){
+                    if (user.id === post.userId) {
                         username = user.name;
                     }
                 })
@@ -267,7 +259,26 @@ window.addEventListener("DOMContentLoaded", () => {
                     </tr>
                 `;
 
-            tbody.insertAdjacentHTML("beforeend", usersHtml);
+                tbody.insertAdjacentHTML("beforeend", usersHtml);
+            });
         });
-    });
+
+    
+    // create post
+    function createPost() {
+        const postsContainer = document.querySelector(".posts-container");
+        const createBtn = document.querySelector(".create-btn");
+
+        createBtn.addEventListener("click", () => {
+            postsContainer.innerText = "Hello";
+
+            let stateObject = { content: 'create' };
+            let title = 'Updated Content';
+            let newUrl = '/create';
+
+            history.pushState(stateObject, title, newUrl);
+        });
+    }
+
+    createPost();
 });

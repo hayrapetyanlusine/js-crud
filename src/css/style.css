@@ -1,4 +1,4 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -51,10 +51,6 @@
     width: 100%;
     background-color: #E9ECEF;
     position: relative;
-
-    /* display: flex;
-    flex-direction: column;
-    justify-content: space-between; */
 }
 
 #header {
@@ -112,7 +108,7 @@
 }
 
 .welcome-info h3 {
-    font-size: 40px;   
+    font-size: 40px;
 }
 
 .welcome-info p {
@@ -126,29 +122,36 @@
     font-size: 18px;
 }
 
+.posts-container {
+    padding: 20px;
+}
+
 #posts {
     max-width: 1150px;
     width: 100%;
     border-radius: 8px;
     background: #FFF;
     box-shadow: 0px 10px 13px 0px rgba(17, 38, 146, 0.05);
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 0 20px 20px 20px;
+    margin-top: -120px;
+    height: 470px;
+    overflow-y: scroll;
+}
 
-    /* position: relative; */
-
-    /* position: absolute;
-    top: 300px;
-    left: 0; */
-    margin: 0 15px;
-    height: 400px;
+#posts::-webkit-scrollbar {
+    display: none;
 }
 
 .action {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 30px;
+    background-color: #fff;
+    backdrop-filter: blur(32px);
+    position: sticky;
+    top: 0;
+    left: 0;
+    margin-top: 20px;
 }
 
 #posts .action-name {
@@ -167,17 +170,19 @@
     font-size: 22px;
 }
 
-#table{
+#table {
     border-collapse: collapse;
     width: 100%;
     padding: 30px;
+    margin-top: 20px;
 }
 
 #table tr:nth-child(2n-1) {
     background-color: #F5F6FA;
 }
 
-#table th, td {
+#table th,
+td {
     padding: 12px 24px;
     text-align: start;
 }
