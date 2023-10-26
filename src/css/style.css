@@ -24,7 +24,7 @@
 }
 
 .sidebar-menu {
-    max-width: 260px;
+    max-width: 258px;
     width: 100%;
     padding: 16px 24px;
     margin: 0 auto;
@@ -134,7 +134,7 @@
     box-shadow: 0px 10px 13px 0px rgba(17, 38, 146, 0.05);
     padding: 0 20px 20px 20px;
     margin-top: -120px;
-    height: 470px;
+    height: 500px;
     overflow-y: scroll;
     position: relative;
 }
@@ -267,18 +267,29 @@ td {
     box-shadow: 0px 2px 4px 0px rgba(222, 226, 230, 0.30);
 }
 
-
-
-
-
-ul {
-    list-style-type: none;
+.edit-btn, .del-btn {
+    cursor: pointer;
 }
 
-li {
-    padding: 8px;
+
+
+pre {
+    display: inline;
 }
 
-ul, li {
-    font-size: 20px;
+.menu-item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.menu-item:not(.open) > .menu-group > * {
+    display: none;
+}
+
+.title {
+    padding: 8px 0;
+    font-size: 18px;
+    color: #8A92A6;
 }
