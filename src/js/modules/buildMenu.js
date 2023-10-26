@@ -1,10 +1,10 @@
 const container = document.querySelector(".menu-content-wrapper");
 
 async function fetchData() {
-    try{
+    try {
         const response = await fetch('menu.json');
         return await response.json();
-    } catch(err){
+    } catch (err) {
         throw new Error(err);
     }
 }
@@ -26,7 +26,7 @@ function buildMenu(nodes, level) {
         }
         item.innerHTML = `<p class="title">${title}</p>`;
         item.prepend(prefix);
-        
+
         let children = node.children || node.pages;
         if (children && children.length) {
             const icon = document.createElement("img");

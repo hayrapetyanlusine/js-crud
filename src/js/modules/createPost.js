@@ -4,7 +4,7 @@ const createBtn = document.querySelector(".create-btn");
 createBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
-    createPost()
+    createPost();
 });
 
 async function createPost() {
@@ -44,7 +44,8 @@ async function createPost() {
     postsContainer.innerHTML = "";
     postsContainer.insertAdjacentHTML("beforeend", postHtml);
 
-    window.history.pushState({}, "", "/create");
+    // window.history.pushState({}, "", "/create");
+    history.pushState(postHtml, "post", "/create");
 }
 
 

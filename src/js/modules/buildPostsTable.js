@@ -21,7 +21,7 @@ async function buildPostsTable(container) {
             })
 
             const usersHtml = `
-                <tr>
+                <tr class="table-item">
                     <td>${post.id}</td>
                     <td>${username}</td>
                     <td>${post.title}</td>
@@ -39,4 +39,30 @@ async function buildPostsTable(container) {
     }
 }
 
-buildPostsTable(tbody);
+buildPostsTable(tbody)
+    .then(() => {
+        deleteUser();
+        editUser();
+    });
+
+function deleteUser() {
+    const delBtn = document.querySelectorAll(".del-btn");
+
+    delBtn.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            let item = e.target.closest(".table-item");
+            let id = item.querySelector('td:first-child').textContent;
+            
+            fetch(`'https://jsonplaceholder.typicode.com/posts/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+        })
+    });
+}
+
+function editUser() {
+    
+}
