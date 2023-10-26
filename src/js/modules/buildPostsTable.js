@@ -11,9 +11,14 @@ async function buildPostsTable(container) {
 
         const [postsData, usersData] = data;
     
-        postsData.forEach((post) => {
-            const user = usersData.find((user) => user.id === post.userId);
-            const username = user ? user.name : "Unknown User";
+        postsData.map((post) => {
+            let username;
+
+            usersData.map(user => {
+                if(user.id === post.userId){
+                    username = user.name;
+                }
+            })
 
             const usersHtml = `
                 <tr>

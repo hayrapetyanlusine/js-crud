@@ -10,6 +10,11 @@
     display: flex;
 }
 
+a {
+    text-decoration: none;
+    display: block;
+}
+
 .menu-toggle-btn {
     padding: 8px;
     border-radius: 50%;

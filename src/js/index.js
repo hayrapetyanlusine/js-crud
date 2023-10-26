@@ -1,57 +1,29 @@
 window.addEventListener("DOMContentLoaded", () => {
-    async function getUsersInfo() {
-        const data = await fetch("https://jsonplaceholder.typicode.com/users");
-
-        return await data.json()
-    }
-
-    // create post
-    function createPost() {
-        const postsContainer = document.querySelector(".posts-container");
-        const createBtn = document.querySelector(".create-btn");
-
-        createBtn.addEventListener("click", () => {
-            // const url = window.location.href;
-
-            const usersData = getUsersInfo();
-
-            usersData.then(users => {
-                users.map((user) => {
-                    // user.name
-                });
-            });
-
-            const postHtml = `
-                <div id="posts">
-                    <div class="action">
-                        <div class="action-name">Create Post</div>
-                    </div>
-
-                    <form class="create-post-form">
-                        <div class="create-post-main">
-                            <input type="text" placeholder="Title">
-                            <select name="select-user" id="select-user">
-                                <option value=${name}>${name}</option>
-                            </select>
-                        </div>
-                        <div class="text-div">
-                            <textarea name="text" cols="35" rows="3"></textarea>
-                        </div>
-                    </form>
-                    
-                    <div class="create-post-btns">
-                        <button class="create-post-btn">Create</button>
-                        <button class="cancel-post-btn">Cancel</button>
-                    </div>
-                </div>
-            `;
-
-            postsContainer.innerHTML = "";
-            postsContainer.insertAdjacentHTML("beforeend", postHtml);
-
-            window.history.pushState({}, "", "/create");
-        });
-    }
-
-    createPost();
+   
 });
+
+function navigateTo(page) {
+    let content;
+    switch (page) {
+        case 'create':
+            content = "";
+            break;
+        case 'edit':
+            content = '<h2>Edit</h2><p>This is a edit page</p>';
+            break;
+        default:
+            content = `Table `;
+    }
+
+    document.querySelector(".posts-container").innerHTML = "";
+    document.querySelector(".posts-container").insertAdjacentHTML("beforeend", content);
+    history.pushState({ page: page }, null, `${page}`);
+}
+
+// window.addEventListener("popstate", (e) => {
+//     const page = e.state ? e.state.page : '/';
+//     navigateTo(page);
+// });
+
+// const initialPage = window.location.hash.slice(1) || '/';
+// navigateTo(initialPage);
