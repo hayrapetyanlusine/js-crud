@@ -1,17 +1,4 @@
-const container = document.querySelector(".menu-content-wrapper");
-
-async function fetchData() {
-    try {
-        const response = await fetch('menu.json');
-        return await response.json();
-    } catch (err) {
-        throw new Error(err);
-    }
-}
-
-fetchData().then(data => container.replaceWith(buildMenu(data, 0)));
-
-function buildMenu(nodes, level) {
+export function buildMenu(nodes, level) {
     let wrapper = document.createElement("div");
     wrapper.className = "menu-group";
 

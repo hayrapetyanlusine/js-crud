@@ -1,6 +1,4 @@
-const tbody = document.querySelector("tbody");
-
-async function buildPostsTable(container) {
+export async function buildPostsTable() {
     try {
         const responses = await Promise.all([
             fetch("https://jsonplaceholder.typicode.com/posts"),
@@ -32,37 +30,9 @@ async function buildPostsTable(container) {
                 </tr>
             `;
 
-            container.insertAdjacentHTML("beforeend", usersHtml);
+            document.querySelector("tbody").insertAdjacentHTML("beforeend", usersHtml);
         });
     } catch (err) {
         throw new Error(err);
     }
-}
-
-buildPostsTable(tbody)
-    .then(() => {
-        deleteUser();
-        editUser();
-    });
-
-function deleteUser() {
-    const delBtn = document.querySelectorAll(".del-btn");
-
-    delBtn.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            let item = e.target.closest(".table-item");
-            let id = item.querySelector('td:first-child').textContent;
-            
-            fetch(`'https://jsonplaceholder.typicode.com/posts/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-        })
-    });
-}
-
-function editUser() {
-    
 }

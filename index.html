@@ -70,7 +70,7 @@
                     <div id="posts">
                         <div class="action">
                             <div class="action-name">Posts</div>
-                            <a class="create-btn" href="">Create</a>
+                            <button class="create-btn">Create</button>
                         </div>
 
                         <table id="table" border="1">
@@ -97,12 +97,19 @@
                 </footer>
             </div>
         </div>
+
+        <div class="delete-popup-cover">
+            <div class="delete-popup">
+                <p>Are you sure you want to delete this item?</p>
+                <div class="del-popup-btns">
+                    <button class="confirm-delete">Delete</button>
+                    <button class="cancel-delete">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="./src/js/index.js"></script>
-    <script src="./src/js/modules/buildMenu.js"></script>
-    <script src="./src/js/modules/buildPostsTable.js"></script>
-    <script src="./src/js/modules/createPost.js"></script>
 </body>
 
 </html>

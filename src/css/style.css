@@ -208,8 +208,7 @@ td {
     gap: 24px;
 }
 
-/* create posts */
-.create-post-form {
+#form {
     display: flex;
     gap: 24px;
     width: 100%;
@@ -253,7 +252,7 @@ td {
     bottom: 24px;
 }
 
-.create-post-btn, .cancel-post-btn{
+.btn-Create, .cancel-post-btn, .btn-Edit{
     border: none;
     cursor: pointer;
     padding: 8px 24px;
@@ -261,7 +260,7 @@ td {
     font-size: 18px;
 }
 
-.create-post-btn {
+.btn-Create, .btn-Edit {
     background: #1AA053;
     box-shadow: 0px 2px 4px 0px rgba(26, 160, 83, 0.30);
     color: #fff;
@@ -275,8 +274,6 @@ td {
 .edit-btn, .del-btn {
     cursor: pointer;
 }
-
-
 
 pre {
     display: inline;
@@ -297,4 +294,51 @@ pre {
     padding: 8px 0;
     font-size: 18px;
     color: #8A92A6;
+}
+
+.delete-popup-cover {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(100%);
+}
+
+.delete-popup-cover.open {
+    transform: translateX(0%);
+}
+
+.delete-popup {
+    background-color: #fff;
+    width: 375px;
+    padding: 16px;
+}
+
+.delete-popup p {
+    color: #8A92A6;
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.confirm-delete, .cancel-delete {
+    border-radius: 4px;
+    padding: 8px 24px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+}
+
+.confirm-delete {
+    background-color: #3A57E8;
+}
+
+.cancel-delete {
+    background-color: #000;
 }
