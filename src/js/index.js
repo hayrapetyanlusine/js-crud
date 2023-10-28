@@ -2,6 +2,7 @@ import { changePostTemplate } from "./modules/changePageTelplate.js";
 import { buildPostsTable } from "./modules/buildPostsTable.js";
 import { deleteUser } from "./modules/deleteUser.js";
 import { buildMenu } from "./modules/buildMenu.js";
+import { createUserPost } from "./modules/createUserPosr.js";
 
 const container = document.querySelector(".menu-content-wrapper");
 const createBtn = document.querySelector(".create-btn");
@@ -27,133 +28,116 @@ buildPostsTable()
     .catch((err) => new Error(err));
 
 
+createBtn.addEventListener("click", () => changePostTemplate("Create").then(() => createUserPost()));
 
-createBtn.addEventListener("click", () => changePostTemplate("Create").then(() => getUserId()));
 
-function getUserId() {
-    const selectUser = document.getElementById("select-user");
+async function editUser() {
+    const editBtns = document.querySelectorAll(".edit-btn");
 
-    let userName = selectUser.options[selectUser.selectedIndex].value;
-    let id = selectUser.options[selectUser.selectedIndex].id;
+    editBtns.forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+            let item = e.target.closest(".table-item");
+            let id = +item.querySelector("td:first-child").textContent;
 
-    selectUser.addEventListener("change", () => {
-        userName = selectUser.options[selectUser.selectedIndex].value;
-        id = selectUser.options[selectUser.selectedIndex].id;
+            await changePostTemplate("Edit");
 
-        createUserPost(id);
+            const form = document.querySelector(".create-post-form");
+            const selectUser = document.getElementById("select-user");
+            selectUser.selectedIndex = id;
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+
+                await fetch(`${"https://jsonplaceholder.typicode.com/posts"}/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    },
+                    body: JSON.stringify({
+                        userId: id, 
+                        ...Object.fromEntries(formData.entries())
+                    })
+                })
+                    .then((response) => response.json())
+                    .then((json) => console.log(json));
+            });
+        });
     });
 }
 
-function createUserPost(id) {
-    const cancelBtn = document.querySelector(".cancel-post-btn");
-    const addUserBtn = document.querySelector(".btn-Create");
-    const form = document.querySelector(".create-post-form");
-
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        console.log(1111);
-
-        // const formData = new FormData(form);
-        // const data = JSON.stringify(Object.fromEntries(formData.entries()));
-
-        // console.log(data);
-
-        fetch("https://jsonplaceholder.typicode.com/posts", {
-            method: "POST",
-            body: JSON.stringify({
-                title: "foo",
-                body: "bar",
-                userId: id,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        })
-            .then((response) => response.json())
-            .then((json) => console.log(json));
-    });
-
-    // addUserBtn.addEventListener("click", () => {
-    //     const formData = new FormData(form);
-    //     const data = JSON.stringify({id, ...Object.fromEntries(formData.entries())});
-
-    //     async function action(url, data) {
-    //         await fetch(url, {
-    //             method: "POST",
-    //             headers: {
-    //                 "content-type" : "application/json"
-    //             },
-    //             body: data
-    //         })
-    //     }
-    
-    //     action("https://jsonplaceholder.typicode.com/posts", data)
-    //         .then(() => console.log("done", data))
-    //         .catch(() => console.log("server error")) 
-    // });
-}
 
 
 
 
 
+// page navigation
+// const routes = {
+//   "/": {
+//     linkLabel: "Cancel",
+//     content: buildPostsTable()
+//   },
+//   "/create": {
+//     linkLabel: "create",
+//     content: `<h1>Create page</h1>`
+//   },
+//   "/edit": {
+//     linkLabel: "edit",
+//     content: `<h1>Edit page</h1>`
+//   }
+// };
 
+// const nav = document.querySelector(".nav-link-item");
+// const appChangePart = document.querySelector(".posts-container");
 
+// const renderContent = (route) => (appChangePart.innerHTML = routes[route].content);
 
+// const navigate = (e) => {
+//   const route = e.target.pathname;
+//   window.history.pushState({}, "", route);
+//   renderContent(route);
+// };
 
-// edit user
-// function editUser() {
-//     const editBtns = document.querySelectorAll(".edit-btn");
+// const registerNavLinks = () => {
+//   nav.addEventListener("click", (e) => {
+//     e.preventDefault();
+//     const { href } = e.target;
+//     window.history.pushState({}, "", href);
+//     navigate(e);
+//   });
+// };
 
-//     editBtns.forEach(btn => {
-//         btn.addEventListener("click", (e) => {
-//             // let item = e.target.closest(".table-item");
-//             // let id = item.querySelector("td:first-child").textContent;
+// function addRouteName () {
+//     const content = `/${nav.textContent.toLowerCase()}`;
 
-//             changePostTemplate("Edit").then(() => {
-//                 const addUserBtn = document.querySelector(".btn-Edit");
-//                 const cancelBtn = document.querySelector(".cancel-post-btn");
-//                 const selectUser = document.getElementById("select-user");
-//             });
-//         });
+//     Object.keys(routes).forEach((route) => {
+//         if(content === "/cancel") {
+//             nav.href = "/";
+//         }
+
+//         if (content === route) {
+//             nav.href = route;
+//         }
 //     });
 // }
 
 
+// const registerBrowserBackAndForth = () => {
+//   window.onpopstate = function (e) {
+//     const route = window.location.pathname;
+//     renderContent(route);
+//   };
+// };
 
+// const renderInitialPage = () => {
+//   const route = window.location.pathname;
+//   renderContent(route);
+// };
 
-
-
-
-
-
-
-
-
-
-// function navigateTo(page) {
-//     let content;
-//     switch (page) {
-//         case 'create':
-//             content = "";
-//             break;
-//         case 'edit':
-//             content = '<h2>Edit</h2><p>This is a edit page</p>';
-//             break;
-//         default:
-//             content = `Table `;
-//     }
-
-//     document.querySelector(".posts-container").innerHTML = "";
-//     document.querySelector(".posts-container").insertAdjacentHTML("beforeend", content);
-//     history.pushState({ page: page }, null, `${page}`);
-// }
-
-// window.addEventListener("popstate", (e) => {
-//     const page = e.state ? e.state.page : '/';
-//     navigateTo(page);
-// });
-
-// const initialPage = window.location.hash.slice(1) || '/';
-// navigateTo(initialPage);
+// (function bootup() {
+//     addRouteName();
+//     registerNavLinks();
+//     registerBrowserBackAndForth();
+//     renderInitialPage();
+// })();
