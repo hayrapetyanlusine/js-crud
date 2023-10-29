@@ -1,5 +1,4 @@
 export function createUserPost() {
-    const cancelBtn = document.querySelector(".cancel-post-btn");
     const form = document.querySelector(".create-post-form");
     const selectUser = document.getElementById("select-user");
     
@@ -26,8 +25,4 @@ export function createUserPost() {
             .then((response) => response.json())
             .then((json) => console.log(json));
     });
-
-    cancelBtn.addEventListener("click", () => {
-        console.log("cancel");
-    })
 }

@@ -165,7 +165,7 @@ a {
     font-size: 23px;
 }
 
-.create-btn {
+.create-btn, .nav-link-item {
     border-radius: 4px;
     background: #3A57E8;
     box-shadow: 0px 2px 4px 0px rgba(58, 87, 232, 0.30);

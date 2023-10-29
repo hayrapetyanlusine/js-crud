@@ -10,22 +10,23 @@ function confirm(callback) {
         });
     });
 }
-    
 
 export function deleteUser() {
-    const delBtn = document.querySelectorAll(".del-btn");
-    
-    delBtn.forEach(btn => {
+    let lastClickedItemId;
+
+    const delBtns = document.querySelectorAll(".del-btn");
+
+    delBtns.forEach(btn => {
         btn.addEventListener("click", (e) => {
             let delPopupCover = document.querySelector(".delete-popup-cover");
             delPopupCover.classList.add("open");
 
+            let item = e.target.closest(".table-item");
+            lastClickedItemId = item.querySelector("td:first-child").textContent;
+
             confirm((isConfirmed) => {
                 if (isConfirmed) {
-                    let item = e.target.closest(".table-item");
-                    let id = item.querySelector("td:first-child").textContent;
-
-                    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+                    fetch(`https://jsonplaceholder.typicode.com/posts/${lastClickedItemId}`, {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json",

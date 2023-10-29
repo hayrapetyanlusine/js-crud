@@ -1,11 +1,10 @@
-import { changePostTemplate } from "./modules/changePageTelplate.js";
-import { buildPostsTable } from "./modules/buildPostsTable.js";
-import { deleteUser } from "./modules/deleteUser.js";
+import { buildPostHTML, getUserData } from "./modules/changePageTelplate.js";
+import { buildPostsTable, getPostsData } from "./modules/buildPostsTable.js";
 import { buildMenu } from "./modules/buildMenu.js";
-import { createUserPost } from "./modules/createUserPosr.js";
+import { createUserPost } from "./modules/createUserPost.js";
+
 
 const container = document.querySelector(".menu-content-wrapper");
-const createBtn = document.querySelector(".create-btn");
 
 // build menu
 async function fetchData() {
@@ -19,16 +18,8 @@ async function fetchData() {
 
 fetchData().then(data => container.replaceWith(buildMenu(data, 0)));
 
-// build posts
-buildPostsTable()
-    .then(() => {
-        deleteUser();
-        editUser();
-    })
-    .catch((err) => new Error(err));
 
-
-createBtn.addEventListener("click", () => changePostTemplate("Create").then(() => createUserPost()));
+// createBtn.addEventListener("click", () => changePostTemplate("Create").then(() => createUserPost()));
 
 
 async function editUser() {
@@ -141,3 +132,100 @@ async function editUser() {
 //     registerBrowserBackAndForth();
 //     renderInitialPage();
 // })();
+
+
+
+
+
+
+const app = document.querySelector(".posts-container");
+// const nav = document.querySelector("#nav");
+
+// const renderContent = (route) => (app.innerHTML = routes[route].content);
+// const renderContent = (route) => {
+//     app.innerHTML = "";
+//     app.insertAdjacentHTML("beforeend", routes[route].content);
+// };
+
+
+async function renderContent(route) {
+    const data = await getPostsData();
+    const createUserData = await getUserData().then(data => data);
+    const EditUserData = await getUserData().then(data => data);
+
+    const routes = {
+        "/": {
+            linkLabel: "Cancel",
+            content: buildPostsTable(data)
+        },
+        "/create": { 
+            linkLabel: "create",
+            content: buildPostHTML(createUserData, "Create")
+        },
+        "/edit": {
+            linkLabel: "edit",
+            content: `<h1>Edit page</h1>`
+        }
+    };
+
+    app.innerHTML = "";
+    app.insertAdjacentHTML("beforeend", routes[route].content);
+
+    let nav = document.querySelector(".nav-link-item");
+
+    function addRouteName () {
+        const content = `/${nav.textContent.toLowerCase()}`;
+    
+        Object.keys(routes).forEach((route) => {
+            if(content === "/cancel") {
+                nav.href = "/";
+            }
+    
+            if (content === route) {
+                nav.href = route;
+            }
+        });
+    }
+
+    function registerNavLinks() {
+        nav.addEventListener("click", (e) => {
+            e.preventDefault();
+            const { href } = e.target;
+            window.history.pushState({}, "", href);
+            navigate(e);
+        });
+    };
+
+    addRouteName();
+    registerNavLinks();
+    console.log("--nav--", nav);
+
+    if(window.location.pathname === "/create") {
+        createUserPost();
+    }
+}
+
+const navigate = (e) => {
+  const route = e.target.pathname;
+  window.history.pushState({}, "", route);
+  renderContent(route);
+};
+
+const registerBrowserBackAndForth = () => {
+  window.onpopstate = function (e) {
+    const route = window.location.pathname;
+    renderContent(route);
+  };
+};
+
+const renderInitialPage = () => {
+  const route = window.location.pathname;
+  renderContent(route);
+};
+
+(function bootup() {
+//   renderNavlinks();
+//   registerNavLinks();
+  registerBrowserBackAndForth();
+  renderInitialPage();
+})();
