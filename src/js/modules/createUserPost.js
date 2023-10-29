@@ -1,18 +1,15 @@
 export function createUserPost() {
+    const cancelBtn = document.querySelector(".cancel-post-btn"); 
     const form = document.querySelector(".create-post-form");
     const selectUser = document.getElementById("select-user");
-    
-    let id = +selectUser.options[selectUser.selectedIndex].id;
-    selectUser.addEventListener("change", () => {
-        id = +selectUser.options[selectUser.selectedIndex].id;
-    });
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        const id = +selectUser.options[selectUser.selectedIndex].id;
         const formData = new FormData(form);
 
-        fetch("https://jsonplaceholder.typicode.com/posts", {
+        await fetch("https://jsonplaceholder.typicode.com/posts", {
             method: "POST",
             body: JSON.stringify({
                 userId: id, 
@@ -23,6 +20,9 @@ export function createUserPost() {
             },
         })
             .then((response) => response.json())
-            .then((json) => console.log(json));
+            .then((json) => console.log(json))
+            .catch(err => console.log(err));
+        
+        cancelBtn.click();
     });
 }

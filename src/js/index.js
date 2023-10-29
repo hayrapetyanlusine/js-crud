@@ -1,13 +1,14 @@
 import { buildPostHTML, getUserData } from "./modules/changePageTelplate.js";
 import { buildPostsTable, getPostsData } from "./modules/buildPostsTable.js";
-import { buildMenu } from "./modules/buildMenu.js";
 import { createUserPost } from "./modules/createUserPost.js";
+import { buildMenu } from "./modules/buildMenu.js";
+import { editUserPost } from "./modules/edituserPost.js";
 
-
-const container = document.querySelector(".menu-content-wrapper");
+const appChangePartContainer = document.querySelector(".posts-container");
+const menuContainer = document.querySelector(".menu-content-wrapper");
 
 // build menu
-async function fetchData() {
+async function getMenuData() {
     try {
         const response = await fetch('menu.json');
         return await response.json();
@@ -16,142 +17,57 @@ async function fetchData() {
     }
 }
 
-fetchData().then(data => container.replaceWith(buildMenu(data, 0)));
-
-
-// createBtn.addEventListener("click", () => changePostTemplate("Create").then(() => createUserPost()));
-
-
-async function editUser() {
-    const editBtns = document.querySelectorAll(".edit-btn");
-
-    editBtns.forEach(btn => {
-        btn.addEventListener("click", async (e) => {
-            let item = e.target.closest(".table-item");
-            let id = +item.querySelector("td:first-child").textContent;
-
-            await changePostTemplate("Edit");
-
-            const form = document.querySelector(".create-post-form");
-            const selectUser = document.getElementById("select-user");
-            selectUser.selectedIndex = id;
-
-            form.addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const formData = new FormData(form);
-
-                await fetch(`${"https://jsonplaceholder.typicode.com/posts"}/${id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    },
-                    body: JSON.stringify({
-                        userId: id, 
-                        ...Object.fromEntries(formData.entries())
-                    })
-                })
-                    .then((response) => response.json())
-                    .then((json) => console.log(json));
-            });
-        });
-    });
-}
+getMenuData().then(data => menuContainer.replaceWith(buildMenu(data, 0)));
 
 
 
+//when click edit buttons coose currect 
 
+// async function editUser() {
+//     const editBtns = document.querySelectorAll(".edit-btn");
 
+//     editBtns.forEach(btn => {
+//         btn.addEventListener("click", async (e) => {
+//             console.log("clickbtn");
 
-// page navigation
-// const routes = {
-//   "/": {
-//     linkLabel: "Cancel",
-//     content: buildPostsTable()
-//   },
-//   "/create": {
-//     linkLabel: "create",
-//     content: `<h1>Create page</h1>`
-//   },
-//   "/edit": {
-//     linkLabel: "edit",
-//     content: `<h1>Edit page</h1>`
-//   }
-// };
+//             let item = e.target.closest(".table-item");
+//             let id = +item.querySelector("td:first-child").textContent;
 
-// const nav = document.querySelector(".nav-link-item");
-// const appChangePart = document.querySelector(".posts-container");
+//             await changePostTemplate("Edit");
 
-// const renderContent = (route) => (appChangePart.innerHTML = routes[route].content);
+//             const form = document.querySelector(".create-post-form");
+//             const selectUser = document.getElementById("select-user");
+//             selectUser.selectedIndex = id;
 
-// const navigate = (e) => {
-//   const route = e.target.pathname;
-//   window.history.pushState({}, "", route);
-//   renderContent(route);
-// };
+//             form.addEventListener("submit", async (e) => {
+//                 e.preventDefault();
 
-// const registerNavLinks = () => {
-//   nav.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     const { href } = e.target;
-//     window.history.pushState({}, "", href);
-//     navigate(e);
-//   });
-// };
+//                 const formData = new FormData(form);
 
-// function addRouteName () {
-//     const content = `/${nav.textContent.toLowerCase()}`;
-
-//     Object.keys(routes).forEach((route) => {
-//         if(content === "/cancel") {
-//             nav.href = "/";
-//         }
-
-//         if (content === route) {
-//             nav.href = route;
-//         }
+//                 await fetch(`${"https://jsonplaceholder.typicode.com/posts"}/${id}`, {
+//                     method: "PUT",
+//                     headers: {
+//                         "Content-type": "application/json; charset=UTF-8"
+//                     },
+//                     body: JSON.stringify({
+//                         userId: id, 
+//                         ...Object.fromEntries(formData.entries())
+//                     })
+//                 })
+//                     .then((response) => response.json())
+//                     .then((json) => console.log(json));
+//             });
+//         });
 //     });
 // }
 
+// editUser();
 
-// const registerBrowserBackAndForth = () => {
-//   window.onpopstate = function (e) {
-//     const route = window.location.pathname;
-//     renderContent(route);
-//   };
-// };
-
-// const renderInitialPage = () => {
-//   const route = window.location.pathname;
-//   renderContent(route);
-// };
-
-// (function bootup() {
-//     addRouteName();
-//     registerNavLinks();
-//     registerBrowserBackAndForth();
-//     renderInitialPage();
-// })();
-
-
-
-
-
-
-const app = document.querySelector(".posts-container");
-// const nav = document.querySelector("#nav");
-
-// const renderContent = (route) => (app.innerHTML = routes[route].content);
-// const renderContent = (route) => {
-//     app.innerHTML = "";
-//     app.insertAdjacentHTML("beforeend", routes[route].content);
-// };
 
 
 async function renderContent(route) {
     const data = await getPostsData();
-    const createUserData = await getUserData().then(data => data);
-    const EditUserData = await getUserData().then(data => data);
+    const userData = await getUserData().then(data => data);
 
     const routes = {
         "/": {
@@ -160,18 +76,33 @@ async function renderContent(route) {
         },
         "/create": { 
             linkLabel: "create",
-            content: buildPostHTML(createUserData, "Create")
+            content: buildPostHTML(userData, "Create")
         },
         "/edit": {
             linkLabel: "edit",
-            content: `<h1>Edit page</h1>`
+            content: buildPostHTML(userData, "Edit")
         }
     };
 
-    app.innerHTML = "";
-    app.insertAdjacentHTML("beforeend", routes[route].content);
+    appChangePartContainer.innerHTML = "";
+    appChangePartContainer.insertAdjacentHTML("beforeend", routes[route].content);
 
     let nav = document.querySelector(".nav-link-item");
+
+    const editBtns = document.querySelectorAll(".edit-btn");
+
+    editBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const a = document.createElement("a");
+            a.classList.add("nav-link-item");
+            a.innerText = "Edit";
+            a.href = "/edit";
+
+            nav = a;
+
+            // create that when click change edit page
+        });
+    })
 
     function addRouteName () {
         const content = `/${nav.textContent.toLowerCase()}`;
@@ -190,8 +121,7 @@ async function renderContent(route) {
     function registerNavLinks() {
         nav.addEventListener("click", (e) => {
             e.preventDefault();
-            const { href } = e.target;
-            window.history.pushState({}, "", href);
+            window.history.pushState({}, "", e.target.href);
             navigate(e);
         });
     };
@@ -202,6 +132,10 @@ async function renderContent(route) {
 
     if(window.location.pathname === "/create") {
         createUserPost();
+    }
+
+    if(window.location.pathname === "/edit") {
+        editUserPost();
     }
 }
 
@@ -224,8 +158,6 @@ const renderInitialPage = () => {
 };
 
 (function bootup() {
-//   renderNavlinks();
-//   registerNavLinks();
   registerBrowserBackAndForth();
   renderInitialPage();
 })();

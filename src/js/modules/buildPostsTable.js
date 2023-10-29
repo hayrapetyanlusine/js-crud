@@ -1,7 +1,3 @@
-// import { changePostTemplate } from "./changePageTelplate.js";
-// import { createUserPost } from "./createUserPosr.js";
-// import { deleteUser } from "./deleteUser.js";
-
 export async function getPostsData() {
     try {
         const responses = await Promise.all([
@@ -21,7 +17,7 @@ export function buildPostsTable(data = []) {
         <div id="posts">
             <div class="action">
                 <div class="action-name">Posts</div>
-                <a class="nav-link-item">Create</a>
+                <a class="create-btn nav-link-item">Edit</a>
             </div>
 
             <table id="table" border="1">
@@ -48,7 +44,9 @@ export function buildPostsTable(data = []) {
                     <td>${user.name}</td>
                     <td>${post.title}</td>
                     <td>
-                        <img class="edit-btn" src="./src/img/Edit_fill.png" alt="edit">
+                        <a class="nav-link-item">
+                            <img class="edit-btn" src="./src/img/Edit_fill.png" alt="edit">
+                        </a>
                         <img class="del-btn" src="./src/img/del_alt_duotone_line.png" alt="del">
                     </td>
                 </tr>`;
@@ -62,23 +60,3 @@ export function buildPostsTable(data = []) {
 
     return tableHTML;
 }
-
-
-
-// getPostsData()
-//     .then(data => buildPostsTable(data))
-//     .then(() => {
-//         const createBtn = document.querySelector(".nav-link-item");
-
-//         createBtn.addEventListener("click", () => {
-//             changePostTemplate("Create")
-//             .then(() => createUserPost())
-//         });
-
-//         console.log("Create btn", createBtn);
-
-//         deleteUser();
-//     })
-//     .catch(err => console.log(err));
-
-

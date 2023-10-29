@@ -12,7 +12,7 @@
 
 a {
     text-decoration: none;
-    display: block;
+    /* display: block; */
 }
 
 .menu-toggle-btn {
@@ -165,7 +165,7 @@ a {
     font-size: 23px;
 }
 
-.create-btn, .nav-link-item {
+.create-btn {
     border-radius: 4px;
     background: #3A57E8;
     box-shadow: 0px 2px 4px 0px rgba(58, 87, 232, 0.30);
