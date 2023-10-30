@@ -17,7 +17,7 @@ export function buildPostsTable(data = []) {
         <div id="posts">
             <div class="action">
                 <div class="action-name">Posts</div>
-                <a class="create-btn nav-link-item">Edit</a>
+                <a class="create-btn nav-link-item">Create</a>
             </div>
 
             <table id="table" border="1">

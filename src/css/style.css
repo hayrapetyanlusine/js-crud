@@ -269,6 +269,7 @@ td {
 .cancel-post-btn {
     background: #DEE2E6;
     box-shadow: 0px 2px 4px 0px rgba(222, 226, 230, 0.30);
+    color: #000;
 }
 
 .edit-btn, .del-btn {

@@ -11,7 +11,7 @@ function confirm(callback) {
     });
 }
 
-export function deleteUser() {
+export function deleteUser() { 
     let lastClickedItemId;
 
     const delBtns = document.querySelectorAll(".del-btn");
