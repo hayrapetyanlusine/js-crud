@@ -117,3 +117,5 @@ function renderInitialPage() {
   registerBrowserBackAndForth();
   renderInitialPage();
 })();
+
+

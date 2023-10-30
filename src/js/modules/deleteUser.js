@@ -1,7 +1,7 @@
 function confirm(callback) {
     const btns = document.querySelectorAll(".del-popup-btns button");
 
-    btns.forEach(btn => {
+    btns.forEach((btn) => {
         btn.addEventListener("click", (e) => {
             if (e.currentTarget.textContent === "Delete") {
                 callback(true);
@@ -11,12 +11,12 @@ function confirm(callback) {
     });
 }
 
-export function deleteUser() { 
-    let lastClickedItemId;
-
+export function deleteUser() {
     const delBtns = document.querySelectorAll(".del-btn");
 
-    delBtns.forEach(btn => {
+    let lastClickedItemId;
+
+    delBtns.forEach((btn) => {
         btn.addEventListener("click", (e) => {
             let delPopupCover = document.querySelector(".delete-popup-cover");
             delPopupCover.classList.add("open");
@@ -26,18 +26,20 @@ export function deleteUser() {
 
             confirm((isConfirmed) => {
                 if (isConfirmed) {
-                    fetch(`https://jsonplaceholder.typicode.com/posts/${lastClickedItemId}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json",
-                        }
-                    });
-
                     delPopupCover.classList.remove("open");
                 }
 
                 delPopupCover.classList.remove("open");
             });
+        });
+    });
+
+    document.querySelector(".confirm-delete").addEventListener("click", () => {
+        fetch(`https://jsonplaceholder.typicode.com/posts/${lastClickedItemId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
     });
 }
